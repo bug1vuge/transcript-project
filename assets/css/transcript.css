@@ -1,0 +1,288 @@
+/* ==========================================================================
+   Transcript: an essay that inks itself in as it is spoken.
+   ========================================================================== */
+
+:root {
+  --page: #e7e8e2;
+  --ink: #14161b;
+  --ink-quiet: rgb(20 22 27 / 0.24);
+  --meta: #5f6268;
+  --rule: rgb(20 22 27 / 0.18);
+
+  --text: 'Literata', 'Iowan Old Style', Georgia, serif;
+  --sans: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif;
+
+  --gutter: clamp(1.25rem, 5vw, 4.5rem);
+  --measure: 33em;
+  --bar-height: 4.25rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 20vh;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--text);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Masthead and colophon
+   -------------------------------------------------------------------------- */
+
+.masthead,
+.colophon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding: 1.5rem var(--gutter);
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  color: var(--meta);
+}
+
+.masthead {
+  align-items: baseline;
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead__name {
+  font-family: var(--text);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+.colophon {
+  margin-top: clamp(4rem, 12vh, 8rem);
+  padding-bottom: calc(1.5rem + var(--bar-height) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--rule);
+}
+
+.colophon p {
+  max-width: 40em;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Spread
+   -------------------------------------------------------------------------- */
+
+.spread {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding: clamp(2.5rem, 8vh, 6rem) var(--gutter) 0;
+}
+
+@media (min-width: 62rem) {
+  .spread {
+    grid-template-columns: minmax(18rem, 1fr) minmax(0, var(--measure));
+    align-items: start;
+    justify-content: space-between;
+  }
+
+  .plate {
+    position: sticky;
+    top: clamp(2rem, 9vh, 5rem);
+  }
+}
+
+.title {
+  margin: 0;
+  max-width: 9em;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(3rem, 8.5vw, 6.75rem);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+}
+
+.standfirst {
+  max-width: 24em;
+  margin: clamp(1.25rem, 3vw, 2rem) 0 0;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--meta);
+}
+
+/* --------------------------------------------------------------------------
+   The essay
+   -------------------------------------------------------------------------- */
+
+.essay {
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.5rem);
+  line-height: 1.58;
+  hanging-punctuation: first;
+}
+
+.essay p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* Paragraphs open with an indent, as in a book. */
+.essay p + p {
+  text-indent: 1.5em;
+}
+
+.w {
+  /* Pauses in the voice become a little extra space on the page. */
+  margin-inline-end: var(--pause, 0);
+  transition: color 0.45s ease;
+  cursor: pointer;
+}
+
+.w:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--rule);
+}
+
+/* While listening, the unspoken text recedes and the voice inks it back in. */
+.spread:is([data-state='playing'], [data-state='paused']) .w {
+  color: var(--ink-quiet);
+}
+
+.spread:is([data-state='playing'], [data-state='paused']) .w.is-spoken {
+  color: var(--ink);
+  transition-duration: 0.18s;
+}
+
+/* --------------------------------------------------------------------------
+   Control: a word, a hairline, a time
+   -------------------------------------------------------------------------- */
+
+.control {
+  display: grid;
+  grid-template-columns: auto minmax(4rem, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+}
+
+/* Phones: the control rides along the bottom edge. */
+@media (max-width: 61.99rem) {
+  .control {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 2;
+    min-height: calc(var(--bar-height) + env(safe-area-inset-bottom));
+    padding: 0 var(--gutter) env(safe-area-inset-bottom);
+    background: rgb(231 232 226 / 0.94);
+    border-top: 1px solid var(--rule);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@media (min-width: 62rem) {
+  .control {
+    max-width: 26rem;
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+  }
+}
+
+.control__toggle {
+  min-width: 4.75rem;
+  min-height: 44px;
+  margin-left: -0.6rem;
+  padding: 0 0.6rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 600;
+}
+
+.control__toggle:focus-visible,
+.control__track:has(.control__seek:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.control__track {
+  position: relative;
+  height: 44px;
+}
+
+.control__track::before,
+.control__progress {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+}
+
+.control__track::before {
+  background: var(--rule);
+}
+
+.control__progress {
+  height: 2px;
+  margin-top: -0.5px;
+  background: var(--ink);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+}
+
+.control__seek {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.control__time {
+  color: var(--meta);
+  white-space: nowrap;
+}
+
+/* Fixed width so the hairline doesn't shift as the seconds change. */
+.control__time > span:first-child {
+  display: inline-block;
+  min-width: 2.2em;
+  text-align: right;
+}
+
+.control[data-state='idle'] .control__time > span:first-child {
+  display: none;
+}
+
+.control[data-state='idle'] .control__total {
+  font-size: 0;
+}
+
+.control[data-state='idle'] .control__total span {
+  font-size: 0.9375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w {
+    transition: none;
+  }
+}

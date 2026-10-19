@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#e7e8e2" />
+    <title>On keeping voicemails · Margin</title>
+    <meta
+      name="description"
+      content="An audio essay whose text inks itself in as it is spoken. Tap any word to hear it."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="On keeping voicemails" />
+    <meta property="og:description" content="An audio essay. Tap any word to hear it." />
+    <meta
+      property="og:image"
+      content="https://bug1vuge.github.io/transcript-project/assets/img/preview.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/fonts/literata-latin-opsz-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="content/timings.json"
+      as="fetch"
+      type="application/json"
+      crossorigin
+    />
+    <link rel="stylesheet" href="assets/css/fonts.css" />
+    <link rel="stylesheet" href="assets/css/transcript.css" />
+    <script type="module" src="assets/js/transcript.js"></script>
+  </head>
+
+  <body>
+    <header class="masthead">
+      <span class="masthead__name">Margin</span>
+      <span class="masthead__issue">Issue 4: Listening</span>
+    </header>
+
+    <main class="spread" data-state="loading">
+      <aside class="plate">
+        <h1 class="title" data-bind="title">On keeping voicemails</h1>
+        <p class="standfirst">
+          An audio essay, <span data-bind="length">1 min 24 sec</span>. Press listen and the text
+          follows the voice. Tap any word to hear it from there.
+        </p>
+
+        <div class="control" data-state="idle">
+          <button class="control__toggle" type="button" aria-controls="recording">Listen</button>
+          <span class="control__track">
+            <span class="control__progress" aria-hidden="true"></span>
+            <input
+              class="control__seek"
+              type="range"
+              min="0"
+              max="100"
+              step="0.1"
+              value="0"
+              aria-label="Position in recording"
+            />
+          </span>
+          <span class="control__time">
+            <span data-bind="elapsed">0:00</span>
+            <span class="control__total">/ <span data-bind="duration">1:24</span></span>
+          </span>
+          <audio id="recording" src="assets/audio/piece.mp3" preload="metadata"></audio>
+        </div>
+      </aside>
+
+      <article class="essay" data-bind="essay" aria-label="Transcript">
+        <noscript>
+          <p>The transcript needs JavaScript. The recording is at assets/audio/piece.mp3.</p>
+        </noscript>
+      </article>
+    </main>
+
+    <footer class="colophon">
+      <p>Written for this demo. Set in Literata and Schibsted Grotesk.</p>
+    </footer>
+  </body>
+</html>
