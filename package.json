@@ -1,0 +1,26 @@
+{
+  "name": "transcript",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An audio essay whose text inks itself in as it is spoken. Tap any word to hear it.",
+  "type": "module",
+  "scripts": {
+    "dev": "http-server . -p 5174 -c-1 --silent",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "fonts": "node scripts/copy-fonts.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
+    "http-server": "^14.1.1",
+    "prettier": "^3.9.10"
+  }
+}
